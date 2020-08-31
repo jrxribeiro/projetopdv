@@ -3,7 +3,9 @@ package com.isidrocorp.projetopdv.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,10 +30,37 @@ public class UsuarioController {
 		return lista;
 	}
 	
+	// exemplo de montagem da URL parametrizando o ID do usuário a ser recuperado
+	// a anotação @PathVariable indica que o "termo" {id} é uma variável que será mapeada para o parametro id do método
+	@GetMapping("/usuarios/{id}")
+	public ResponseEntity<Usuario> recuperarPeloId(@PathVariable int id) {
+		Usuario resultado = dao.findById(id).orElse(null);
+		if (resultado != null) {
+			resultado.setSenha("********");
+			return ResponseEntity.ok(resultado);
+		}
+		else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
 	@PostMapping("/login")
-	public Usuario login(@RequestBody Usuario dadosLogin) {
-		System.out.println("recebido = "+dadosLogin.getRacf()+"/"+dadosLogin.getSenha());
-		Usuario resultado = dao.findByRacfAndSenha(dadosLogin.getRacf(), dadosLogin.getSenha());
-		return resultado;
+	public ResponseEntity<Usuario> login(@RequestBody Usuario dadosLogin) {
+		Usuario resultado = dao.findByEmail(dadosLogin.getEmail());
+		// encontrei o usuario?
+		if (resultado != null) {
+			// a senha passada na requisição bate com a senha armazenada no banco?
+			if (resultado.getSenha().equals(dadosLogin.getSenha())) {
+				return ResponseEntity.ok(resultado);
+			}
+			else {
+				return ResponseEntity.status(403).build(); // as senhas não batem - retorno Forbidden(403)
+			}
+			
+		}
+		else {
+			return ResponseEntity.notFound().build(); // se não encontrou , retorne código 404
+		}
+		
 	}
 }
