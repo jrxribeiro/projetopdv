@@ -39,6 +39,9 @@ public class Solicitacao {
 	@Column(name="hora_solic")
 	private LocalTime horaSolicitacao;
 	
+	@Column(name="situacao")
+	private int situacao;
+	
 	
 	/*
 	 *  A relaçao é: PDV--1--<>---N-Solicitacao
@@ -117,6 +120,14 @@ public class Solicitacao {
 
 	public void setHoraSolicitacao(LocalTime horaSolicitacao) {
 		this.horaSolicitacao = horaSolicitacao;
+	}
+
+	public int getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(int situacao) {
+		this.situacao = situacao;
 	}
 	
 
