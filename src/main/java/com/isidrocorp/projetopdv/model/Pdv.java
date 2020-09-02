@@ -1,10 +1,14 @@
 package com.isidrocorp.projetopdv.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,6 +30,10 @@ public class Pdv {
 	
 	@Column(name="telefone", length=20)
 	private String telefone;
+	
+	@OneToMany(mappedBy="pdv", cascade=CascadeType.ALL)
+	private List<Solicitacao> solicitacoes;
+	
 
 	public int getId() {
 		return id;
