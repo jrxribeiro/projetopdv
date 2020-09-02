@@ -56,7 +56,6 @@ public class UsuarioController {
 			else {
 				return ResponseEntity.status(403).build(); // as senhas não batem - retorno Forbidden(403)
 			}
-			
 		}
 		else {
 			return ResponseEntity.notFound().build(); // se não encontrou , retorne código 404
