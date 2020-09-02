@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="itmn880_solic")
 public class Solicitacao {
@@ -53,6 +55,7 @@ public class Solicitacao {
 	 *  isso também através da anotação @JoinColumn
 	 *  
 	 */
+	@JsonIgnoreProperties("solicitacoes")
 	@ManyToOne                 
 	@JoinColumn(name="pdv_id")
 	private Pdv pdv;

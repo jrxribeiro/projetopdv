@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="itmn880_pdv")
 public class Pdv {
@@ -32,6 +34,7 @@ public class Pdv {
 	private String telefone;
 	
 	@OneToMany(mappedBy="pdv", cascade=CascadeType.ALL)
+	@JsonIgnoreProperties("pdv")
 	private List<Solicitacao> solicitacoes;
 	
 
@@ -73,6 +76,14 @@ public class Pdv {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<Solicitacao> getSolicitacoes() {
+		return solicitacoes;
+	}
+
+	public void setSolicitacoes(List<Solicitacao> solicitacoes) {
+		this.solicitacoes = solicitacoes;
 	}	
 
 }
